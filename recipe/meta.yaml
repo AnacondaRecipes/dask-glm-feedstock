@@ -1,18 +1,16 @@
 {% set name = "dask-glm" %}
-{% set version = "0.2.0" %}
-{% set sha256 = "58b86cebf04fe5b9e58092e1c467e32e60d01e11b71fdc628baaa9fc6d1adee5" %}
+{% set version = "0.3.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/dask-glm-{{ version }}.tar.gz
+  sha256: 75d698341525bec333ae4bbb7caae5a334668ec8556d0f72ad82256910500a9e
 
 build:
-  number: 1
+  number: 0
   script: pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
 requirements:
@@ -20,21 +18,28 @@ requirements:
     - python
     - setuptools
     - setuptools_scm
+    - pip
+    - wheel
   run:
     - python
-    - dask
-    - setuptools
-    - scikit-learn >=0.18
-    - scipy >=0.18.1
+    - cloudpickle >=0.2.2
+    - dask-core
     - multipledispatch >=0.4.9
+    - scipy >=0.18.1
+    - scikit-learn >=0.18
+    - distributed
+    - sparse >=0.7.0
 
 test:
   imports:
     - dask_glm
-    - dask_glm.estimators
+  commands:
+    - pip check
+  requires:
+    - pip
 
 about:
-  home: http://github.com/dask/dask-glm
+  home: https://github.com/dask/dask-glm
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
@@ -42,7 +47,7 @@ about:
   description: |
       Generalized Linear Models for parallel and
       distributed machine learning, built using dask.
-  doc_url: http://dask-glm.readthedocs.io/en/latest/
+  doc_url: https://dask-glm.readthedocs.io
   dev_url: https://github.com/dask/dask-glm
 
 extra:
