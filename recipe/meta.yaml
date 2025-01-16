@@ -36,9 +36,13 @@ test:
   imports:
     - dask_glm
     - dask_glm.estimators
+  requires:
+    - pip
+  commands:
+    - pip check
 
 about:
-  home: http://github.com/dask/dask-glm
+  home: https://github.com/dask/dask-glm
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
@@ -46,7 +50,7 @@ about:
   description: |
       Generalized Linear Models for parallel and
       distributed machine learning, built using dask.
-  doc_url: http://dask-glm.readthedocs.io/en/latest/
+  doc_url: https://dask-glm.readthedocs.io
   dev_url: https://github.com/dask/dask-glm
 
 extra:
