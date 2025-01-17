@@ -34,13 +34,17 @@ requirements:
     - sparse >=0.7.0
 
 test:
+  source_files:
+    - dask_glm/tests
   imports:
     - dask_glm
     - dask_glm.estimators
   requires:
     - pip
+    - pytest
   commands:
     - pip check
+    - pytest dask_glm/tests -v -k "not (test_determinism_distributed or test_broadcast_lbfgs_weight or test_dot_with_sparse)"
 
 about:
   home: https://github.com/dask/dask-glm
