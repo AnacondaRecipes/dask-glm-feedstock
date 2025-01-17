@@ -1,6 +1,6 @@
 {% set name = "dask-glm" %}
-{% set version = "0.2.0" %}
-{% set sha256 = "58b86cebf04fe5b9e58092e1c467e32e60d01e11b71fdc628baaa9fc6d1adee5" %}
+{% set version = "0.3.2" %}
+{% set sha256 = "c947a566866698a01d79978ae73233cb5e838ad5ead6085143582c5e930b9a4a" %}
 
 package:
   name: {{ name|lower }}
@@ -13,28 +13,41 @@ source:
 
 build:
   number: 0
-  script: python setup.py install --single-version-externally-managed --record record.txt
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+  skip: True  # [s390x]
 
 requirements:
   host:
     - python
     - setuptools
     - setuptools_scm
+    - pip
+    - wheel
   run:
     - python
+    - cloudpickle >=0.2.2
     - dask
-    - setuptools
-    - scikit-learn >=0.18
-    - scipy >=0.18.1
     - multipledispatch >=0.4.9
+    - scipy >=0.18.1
+    - scikit-learn >=0.18
+    - distributed
+    - sparse >=0.7.0
 
 test:
+  source_files:
+    - dask_glm/tests
   imports:
     - dask_glm
     - dask_glm.estimators
+  requires:
+    - pip
+    - pytest
+  commands:
+    - pip check
+    - pytest dask_glm/tests -v -k "not (test_determinism_distributed or test_broadcast_lbfgs_weight or test_dot_with_sparse)"
 
 about:
-  home: http://github.com/dask/dask-glm
+  home: https://github.com/dask/dask-glm
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
@@ -42,7 +55,7 @@ about:
   description: |
       Generalized Linear Models for parallel and
       distributed machine learning, built using dask.
-  doc_url: http://dask-glm.readthedocs.io/en/latest/
+  doc_url: https://dask-glm.readthedocs.io
   dev_url: https://github.com/dask/dask-glm
 
 extra:
