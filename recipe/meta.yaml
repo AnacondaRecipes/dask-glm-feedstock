@@ -8,13 +8,13 @@ package:
 
 source:
   fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  skip: True  # [s390x]
+  skip: true  # [s390x]
 
 requirements:
   host:
@@ -44,17 +44,17 @@ test:
     - pytest
   commands:
     - pip check
-    - pytest dask_glm/tests -v -k "not (test_determinism_distributed or test_broadcast_lbfgs_weight or test_dot_with_sparse)"
+    - "pytest dask_glm/tests -v -k \"not (test_determinism_distributed or test_broadcast_lbfgs_weight or test_dot_with_sparse)\""
 
 about:
   home: https://github.com/dask/dask-glm
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
-  summary: 'Generalized Linear Models in Dask'
+  summary: Generalized Linear Models in Dask
   description: |
-      Generalized Linear Models for parallel and
-      distributed machine learning, built using dask.
+    Generalized Linear Models for parallel and
+    distributed machine learning, built using dask.
   doc_url: https://dask-glm.readthedocs.io
   dev_url: https://github.com/dask/dask-glm
 
