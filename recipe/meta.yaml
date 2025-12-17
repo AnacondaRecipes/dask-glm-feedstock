@@ -53,7 +53,7 @@ test:
     - pytest
     # https://github.com/dask/dask-glm/issues/109
     # ValueError: The truth value of an empty array is ambiguous. Use `array.size > 0` to check that an array is not empty.
-    - numpy <2
+    - numpy <2  # [py<313]
 
 about:
   home: https://github.com/dask/dask-glm
