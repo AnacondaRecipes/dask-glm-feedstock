@@ -1,6 +1,6 @@
 {% set name = "dask-glm" %}
-{% set version = "0.3.2" %}
-{% set sha256 = "c947a566866698a01d79978ae73233cb5e838ad5ead6085143582c5e930b9a4a" %}
+{% set version = "0.4.0" %}
+{% set sha256 = "96626ad980c5ec4c2db5a406591ce7b3e19762f0785613fde0bfe597d5fc7b17" %}
 
 package:
   name: {{ name|lower }}
@@ -8,30 +8,33 @@ package:
 
 source:
   fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/d/dask-glm/dask_glm-0.4.0.tar.gz
   sha256: {{ sha256 }}
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  skip: True  # [s390x]
+  skip: true  # [s390x]
 
 requirements:
   host:
     - python
-    - setuptools
+    - setuptools >=61
     - setuptools_scm
     - pip
-    - wheel
+    - setuptools-scm >=8
   run:
     - python
-    - cloudpickle >=0.2.2
+    - cloudpickle >=1.0
     - dask
-    - multipledispatch >=0.4.9
-    - scipy >=0.18.1
-    - scikit-learn >=0.18
-    - distributed
-    - sparse >=0.7.0
+    - multipledispatch >=0.6.0
+    - scipy >=1.7
+    - scikit-learn >=1.0
+    - distributed >=2022.1.0
+    - sparse >=0.15
+    - dask-core >=2022.1.0
+    - numba >=0.59
+    - numpy >=1.21
 
 test:
   source_files:
@@ -51,10 +54,10 @@ about:
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
-  summary: 'Generalized Linear Models in Dask'
+  summary: Generalized Linear Models in Dask
   description: |
-      Generalized Linear Models for parallel and
-      distributed machine learning, built using dask.
+    Generalized Linear Models for parallel and
+    distributed machine learning, built using dask.
   doc_url: https://dask-glm.readthedocs.io
   dev_url: https://github.com/dask/dask-glm
 
