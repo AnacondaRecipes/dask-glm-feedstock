@@ -1,40 +1,39 @@
 {% set name = "dask-glm" %}
 {% set version = "0.4.0" %}
-{% set sha256 = "96626ad980c5ec4c2db5a406591ce7b3e19762f0785613fde0bfe597d5fc7b17" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.org/packages/source/d/dask-glm/dask_glm-0.4.0.tar.gz
-  sha256: {{ sha256 }}
+  url: https://github.com/dask/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
+  sha256: b2fda4fd306c36b1f056a96faec1471f256d3092fa6fed6460acfc2e3b04688f
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  skip: true  # [s390x]
+  skip: true  # [py<310]
 
 requirements:
   host:
     - python
+    - pip
     - setuptools >=61
     - setuptools_scm
-    - pip
-    - setuptools-scm >=8
   run:
     - python
     - cloudpickle >=1.0
-    - dask
+    - dask-core >=2022.1.0
+    - distributed >=2022.1.0
     - multipledispatch >=0.6.0
+    - numba >=0.59
+    # Pin numpy from dask[array] instead
+    # - numpy >=1.21
+    # dask[array]
+    - numpy >= 1.24
     - scipy >=1.7
     - scikit-learn >=1.0
-    - distributed >=2022.1.0
     - sparse >=0.15
-    - dask-core >=2022.1.0
-    - numba >=0.59
-    - numpy >=1.21
 
 test:
   source_files:
@@ -44,10 +43,11 @@ test:
     - dask_glm.estimators
   requires:
     - pip
-    - pytest
+    - pytest >=7.0
+    - pytest-xdist >=3.0
   commands:
     - pip check
-    - pytest dask_glm/tests -v -k "not (test_determinism_distributed or test_broadcast_lbfgs_weight or test_dot_with_sparse)"
+    - pytest -v dask_glm/tests
 
 about:
   home: https://github.com/dask/dask-glm
