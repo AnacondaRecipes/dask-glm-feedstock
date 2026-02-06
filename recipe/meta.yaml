@@ -19,7 +19,7 @@ requirements:
     - python
     - pip
     - setuptools >=61
-    - setuptools_scm
+    - setuptools_scm >=8
   run:
     - python
     - cloudpickle >=1.0
