@@ -23,7 +23,7 @@ requirements:
   run:
     - python
     - cloudpickle >=1.0
-    - dask-core >=2022.1.0
+    - dask >=2022.1.0
     - distributed >=2022.1.0
     - multipledispatch >=0.6.0
     - numba >=0.59
