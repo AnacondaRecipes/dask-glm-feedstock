@@ -10,7 +10,7 @@ source:
   sha256: b2fda4fd306c36b1f056a96faec1471f256d3092fa6fed6460acfc2e3b04688f
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   skip: true  # [py<310]
 
@@ -31,7 +31,10 @@ requirements:
     # - numpy >=1.21
     # dask[array]
     - numpy >=1.24
-    - scipy >=1.7
+    # scipy <1.18 avoids TypeError: fmin_l_bfgs_b() got an unexpected keyword
+    # https://docs.scipy.org/doc/scipy/release/1.18.0-notes.html#backwards-incompatible-changes
+    # argument 'iprint', removed in scipy 1.18.0
+    - scipy >=1.7,<1.18
     - scikit-learn >=1.0
     - sparse >=0.15
 
